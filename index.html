@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Happy Birthday!</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
+            }
+    
+            body {
+                background: linear-gradient(135deg, #ffdde1, #ee9ca7, #fad0c4);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                text-align: center;
+                color: white;
+                flex-direction: column;
+                position: relative;
+                padding: 20px;
+                overflow-y: auto; /* Memungkinkan scroll */
+            }
+    
+            .container, #messagePage, #cakePage {
+                background: rgba(255, 255, 255, 0.2);
+                padding: 20px;
+                border-radius: 15px;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 400px;
+                margin-bottom: 20px;
+            }
+    
+            .balloon {
+                position: absolute;
+                width: 50px;
+                height: 70px;
+                background: red;
+                border-radius: 50%;
+                opacity: 0.8;
+                animation: float 6s infinite ease-in-out;
+            }
+    
+            .balloon:nth-child(1) { background: red; left: 5%; animation-delay: 0s; }
+            .balloon:nth-child(2) { background: blue; left: 25%; animation-delay: 1s; }
+            .balloon:nth-child(3) { background: yellow; left: 50%; animation-delay: 2s; }
+            .balloon:nth-child(4) { background: green; left: 75%; animation-delay: 3s; }
+            .balloon:nth-child(5) { background: pink; left: 95%; animation-delay: 4s; }
+    
+            @keyframes float {
+                0% { transform: translateY(100vh); opacity: 1; }
+                100% { transform: translateY(-10vh); opacity: 0; }
+            }
+
+            .love {
+            position: absolute;
+            bottom: 0;
+            font-size: 24px;
+            color: red;
+            animation: floatLove 4s linear infinite;
+            opacity: 0.8;
+            }
+
+            @keyframes floatLove {
+                0% { transform: translateY(0); opacity: 1; }
+                100% { transform: translateY(-100vh); opacity: 0; }
+            }
+
+    
+            .btn {
+                display: block;
+                padding: 10px;
+                background: #007acc;
+                color: white;
+                font-size: 1rem;
+                border-radius: 10px;
+                text-decoration: none;
+                cursor: pointer;
+                margin: 10px auto;
+                width: 100%;
+                max-width: 200px;
+                transition: 0.3s;
+            }
+    
+            .cartoon {
+                position: absolute;
+                bottom: 10px;
+                width: 80px;
+                animation: jump 1.5s infinite alternate ease-in-out;
+            }
+    
+            .cartoon-left { left: 10px; }
+            .cartoon-right { right: 10px; }
+    
+            @keyframes jump {
+                from { transform: translateY(0); }
+                to { transform: translateY(-15px); }
+            }
+    
+            @media (max-width: 600px) {
+                .balloon {
+                    width: 40px;
+                    height: 60px;
+                }
+    
+                .container, #messagePage, #cakePage {
+                    width: 90%;
+                }
+    
+                .cartoon {
+                    width: 60px;
+                }
+    
+                .btn {
+                    font-size: 0.9rem;
+                    padding: 8px;
+                }
+            }
+        </style>
+    </head>
+<body>
+
+    <!-- Balon -->
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+
+    <!-- Kartun -->
+    <img src="cartoon-cat.png" alt="Kucing Imut" class="cartoon cartoon-left">
+    <img src="cartoon-bear.png" alt="Beruang Lucu" class="cartoon cartoon-right">
+
+    <div class="container">
+        <h1 id="title">🎉 DORRR!!! 🎂</h1>
+        <p id="message">HAII SELAMAT ULANG TAHUN BRO!!!</p>
+        <button class="btn" id="playSongBtn" onclick="playSurprise()"> Pencet Aku Dong! </button>
+        <button class="btn" id="showMessageBtn" onclick="showMessage()"> Pencet Lagi! </button>
+        <button class="btn" id="showCakeBtn" onclick="showCake()"> Sekali Lagi! </button>
+        <audio id="birthdaySong" src="happybirthday.mp3"></audio>
+    </div>
+    
+    <div id="messagePage" style="display: none; margin-top: 20px; text-align: center;">
+        <h2 id="specialMessage">💌 SPESIAL MASSAGE FOR U MAS 💌</h2>
+        <p id="wishMessage">Happy Birthday Mas🫶 Hope Your Special Day Is As Incredible As You Are!🌟</p>
+        <button class="btn" onclick="goBack()"> Kembali</button>
+    </div>
+    
+    <div id="cakePage" style="display: none; text-align: center;">
+        <h2 id="cakeMessage">🎂 Ini Kuemu! 🎂</h2>
+        <p id="cakeWish">Semoga kuenya manis seperti harimu! 🍰 </p>
+        <img src="cakeultah.png" alt="Kue Ulang Tahun" width="300">
+        <button class="btn" onclick="goBack()"> Kembali</button>
+    </div>
+    
+    <script>
+        function typeText(element, text, speed, callback) {
+            let i = 0;
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            element.innerHTML = ""; 
+            typing();
+        }
+
+        function showButtons() {
+            document.querySelectorAll('.btn').forEach(btn => btn.classList.add('show'));
+        }
+
+        function playSurprise() {
+            alert("🎈 Selamat Ulang Tahun! Semoga bahagia selalu! 🎊");
+            setTimeout(() => {
+                document.getElementById("birthdaySong").play();
+            }, 1000);
+        }
+
+        function showMessage() {
+            document.querySelector(".container").style.display = "none";
+            document.getElementById("messagePage").style.display = "block";
+            typeText(document.getElementById("specialMessage"), "💌 SPESIAL MASSAGE FOR U MAS 💌", 50, () => {
+                typeText(document.getElementById("wishMessage"), 
+                `Selamat Ulang Tahun, Mas! 🎂✨
+                Selamat bertambah usia, My Fav Person🫶, Hari ini adalah hari istimewa, karena di tanggal ini, seseorang yang sangat berharga bagi hidupku terlahir ke dunia—kamu. 💖
+                Aku bersyukur bisa mengenalmu, mencintaimu, dan berjalan bersamamu sejauh ini. Terima kasih sudah menjadi bagian dari hidupku, mengisi hariku dengan tawa, kebahagiaan, dan kehangatan yang tak tergantikan.
+                Di usiamu yang baru, aku hanya ingin kamu selalu bahagia, sehat, dan meraih semua impian yang kamu kejar. Aku akan selalu ada di sampingmu, mendukungmu, mencintaimu, dan menjadi tempatmu bersandar kapan pun kamu butuh.
+                Semoga setiap langkah yang kamu ambil dipenuhi keberkahan dan kebahagiaan. Sehat dan bahagia selalu manusia baikku ❤️✨`, 
+                30);
+            });
+        }
+
+        function showCake() {
+            document.querySelector(".container").style.display = "none";
+            document.getElementById("cakePage").style.display = "block";
+            typeText(document.getElementById("cakeMessage"), "🎂 Ini Kuemu! 🎂", 50, () => {
+                typeText(document.getElementById("cakeWish"), "Semoga kuenya manis seperti harimu! 🍰 Sorry I can't give you a gift in person, but I always pray the best for you.", 30);
+            });
+        }
+
+        function goBack() {
+            document.getElementById("messagePage").style.display = "none";
+            document.getElementById("cakePage").style.display = "none";
+            document.querySelector(".container").style.display = "block";
+        }
+
+        window.onload = () => {
+            typeText(document.getElementById("title"), "🎉 DORRR!!! 🎂", 70, () => {
+                typeText(document.getElementById("message"), "HAII SELAMAT ULANG TAHUN BRO!!! MAKE A WISH DULU BARU PENCET YAAA! ", 40, showButtons);
+            });
+        };
+
+        function startLoveAnimation() {
+            setInterval(() => {
+                let love = document.createElement("div");
+                love.innerHTML = "❤️";
+                love.classList.add("love");
+                love.style.left = Math.random() * 100 + "vw";
+                love.style.animationDuration = (Math.random() * 3 + 2) + "s"; 
+                document.body.appendChild(love);
+
+                setTimeout(() => {
+                    love.remove();
+                }, 4000);
+            }, 500);
+        }
+    </script>
+</body>
+</html>
